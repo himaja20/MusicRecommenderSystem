@@ -1,0 +1,5 @@
+numexpr==2.4.6
+numpy==1.10.1
+tables==3.2.2
+virtualenv==12.1.1
+-e git://github.com/echonest/pyechonest.git@d8c7af6c1da699b50b2f4b1bd3c0febe72e7f1ee

@@ -8,7 +8,7 @@ cat = catalog.Catalog('CACNYVZ1332EB0BA9D')
 json_str = cat.get_item_dicts()
 
 ##json_str = '{"first_name": "Guido", "last_name":"Rossum"}'
-parsed_json = json.loads(str(json_str).encode("utf-8"))
+##parsed_json = json.loads(str(json_str).encode("utf-8"))
 
 ##print(parsed_json)
-print (parsed_json)
+print (json_str)
