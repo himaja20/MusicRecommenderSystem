@@ -1,11 +1,13 @@
 #!/bin/bash
 
-read -p "Enter the file location > " FILELOC
+#read -p "Enter the file location > " FILELOC
 read -p "enter number of chunks > " CHUNKS
-read -p "enter location where to create the new file > " DIR
+
+#read -p "enter location where to create the new file > " DIR
+FILELOC=../data
+DIR=../data/chunks
 NUMLINES=$(cat "$FILELOC/catalogIds.tsv" | wc -l)
 echo $NUMLINES
-
 CHUNKSIZE=$(($NUMLINES/$CHUNKS))
 if [ ! -d $DIR ]; then
 {
