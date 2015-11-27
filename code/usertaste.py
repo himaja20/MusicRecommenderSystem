@@ -3,11 +3,12 @@ from pyen import PyenException
 en = pyen.Pyen("KO5QUBGMUVJZA0PFA")
 k = 0;
 
-for fileNum in range(5,10):
-	with open("../data/chunks/file0"+str(fileNum)) as catalogIds:
-		print "../data/chunks/file0"+str(fileNum)
+for fileNum in range(13,14):
+	with open("../data/chunks/file"+str(fileNum)) as catalogIds:
+		print "../data/chunks/file"+str(fileNum)
         	for line in catalogIds:
 			try:
+				catalogId = line.strip()
 				uCatalog = en.get('tasteprofile/read', format='json',id=line.strip())
 				uCatalogLength = len(uCatalog['catalog']['items'])
 				print uCatalogLength
@@ -23,7 +24,8 @@ for fileNum in range(5,10):
 					artistId = uCatalog['catalog']['items'][i]['artist_id'] if (u'artist_id' in uCatalog['catalog']['items'][i].keys()) else None
 					foreignId = uCatalog['catalog']['items'][i]['foreign_id'] if (u'foreign_id' in uCatalog['catalog']['items'][i].keys()) else None
 
-					insertStmt = u"INSERT INTO TABLE extendedUserCatalogInfo VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')".format(songId, songName, artistName, playCount, lastModified, dateAdded, artistId, foreignId)
+					"""insertStmt = u"INSERT INTO TABLE extendedUserCatalogInfo VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')".format(songId, songName, artistName, playCount, lastModified, dateAdded, artistId, foreignId)"""
+					insertStmt = u"{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}".format(songId, songName, artistName, playCount, lastModified, dateAdded, artistId, foreignId,catalogId)
 					with open("insertsDir/insertStmtsFile"+str(fileNum), "a") as myfile:
 						myfile.write("\n")
 						myfile.write(insertStmt.encode('utf-8'))
