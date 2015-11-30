@@ -1,1 +1,26 @@
 #!/bin/bash
+#PBS -l walltime=30:00
+#PBS -l nodes=1:ppn=20
+#PBS -l mem=4gb
+#PBS -t 1-26
+#PBS -M mk5376@nyu.edu
+#PBS -N process_data
+
+if [ "$PBS_ARRAYID" == "" ]; then exit; fi
+
+module purge
+
+#load whatever modules are required
+
+directory=(A B C D E F G H I J K L M N O P Q R S T U V W X Y Z)
+PROGRAMDIR=/home/mk5376/MusicRecommenderSytem/code
+DATADIR=/scratch/mk5376/music-recommender-system/songData/data
+
+dest=directory[$PBS_ARRAYID]
+DESTDIR=/scratch/mk5376/music-recommender-system/songData/processed_data/$dest
+mkdir $DESTDIR
+HDF5GETTER=""
+
+
+#run your script here
+
