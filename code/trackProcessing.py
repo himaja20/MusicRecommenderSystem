@@ -26,15 +26,13 @@ def get_all_data(dir,ext):
 		keys['release7DigitalId'] = get.get_release_7digitalid(h5)
 	
 		#Segments data begin
-		keys['segmentsConfidenceArr'] = get.get_segments_confidence(h5) #
-		#keys['segmentsLoudnessMaxArr'] 
-		#print  get.get_segments_loudness_max_time(h5) #
-		keys['segmentsLoudnessMaxTimeArr'] = get.get_segments_loudness_max_time(h5) #
-		keys['segmentsLoudnessStartArr'] = get.get_segments_loudness_start(h5) #
-		keys['segmentsPitchesArr'] = get.get_segments_pitches(h5) #
-		keys['segmentsStartArr'] = get.get_segments_start(h5) #
-#		keys['segmentsTimbreArr'] =
-		#print np.array(get.get_segments_timbre(h5)) #Timbre data	
+		keys['segmentsConfidenceArr'] = arrToStr(get.get_segments_confidence(h5)) #
+		keys['segmentsLoudnessMaxArr'] = arrToStr(get.get_segments_loudness_max_time(h5)) #
+		keys['segmentsLoudnessMaxTimeArr'] = arrToStr(get.get_segments_loudness_max_time(h5)) #
+		keys['segmentsLoudnessStartArr'] = arrToStr(get.get_segments_loudness_start(h5)) #
+		keys['segmentsPitchesArr'] = arrToStr(np.array(get.get_segments_pitches(h5).flatten())) #
+		keys['segmentsStartArr'] = arrToStr(get.get_segments_start(h5)) #
+		keys['segmentsTimbreArr'] = arrToStr(np.array(get.get_segments_timbre(h5).flatten())) #Timbre data	
 		#Segments data End
 	
 		keys['songHotness'] = get.get_song_hotttnesss(h5)
@@ -50,52 +48,41 @@ def get_all_data(dir,ext):
 		keys['year'] = get.get_year(h5)
             	
 		
-		#artistMbTags = get.get_artist_mbtags(h5) # arrayi
-		#print artistMbTags
-		#keys['artistMbTags'] = arrToStr(artistMbTags)
-		
-		"""keys['tatumsStart'] = get.get_tatums_start(h5) #
-		keys['tatumsConfidence'] = get.get_tatums_confidence(h5) #
-		keys['similarArtists'] = get.get_similar_artists(h5) #	"""
-		#keys['sectionsStartArr']=
-		stri = ''
-		for str in  get.get_sections_start(h5):
-			stri += str(str)+','
-		print stri
-		"""
-		keys['sectionsConfidenceArr'] = get.get_sections_confidence(h5) #
-		keys['beatsStart']= get.get_beats_start(h5) #
-		keys['beatsConfidence'] = get.get_beats_confidence(h5) #
-		keys['barsStart'] = get.get_bars_start(h5) #
-		keys['barsConfidence'] = get.get_bars_confidence(h5) #
-		keys['artistTermsWeightArr'] = get.get_artist_terms_weight(h5) #array
-		keys['artistTermsFreqArr'] = get.get_artist_terms_freq(h5)  #array
-		keys['artistTermsArr'] = get.get_artist_terms(h5) # array"""
+		keys['artistMbTags'] = arrToStr(get.get_artist_mbtags(h5))
+		keys['tatumsStart'] = arrToStr(get.get_tatums_start(h5)) #
+		keys['tatumsConfidence'] = arrToStr(get.get_tatums_confidence(h5)) #
+		keys['similarArtists'] = arrToStr(get.get_similar_artists(h5))
+		keys['sectionsStartArr'] = arrToStr(get.get_sections_start(h5))
+		keys['sectionsConfidenceArr'] = arrToStr(get.get_sections_confidence(h5)) #
+		keys['beatsStart']= arrToStr(get.get_beats_start(h5)) #
+		keys['beatsConfidence'] = arrToStr(get.get_beats_confidence(h5)) #
+		keys['barsStart'] = arrToStr(get.get_bars_start(h5)) #
+		keys['barsConfidence'] = arrToStr(get.get_bars_confidence(h5)) #
+		keys['artistTermsWeightArr'] = arrToStr(get.get_artist_terms_weight(h5)) #array
+		keys['artistTermsFreqArr'] = arrToStr(get.get_artist_terms_freq(h5))  #array
+		keys['artistTermsArr'] = arrToStr(get.get_artist_terms(h5)) # array"""
 
+		with open('sData1', 'a') as f:
+			for key in keys.keys():
+				f.write('{0}\t'.format(keys[key]))
+			f.write('\n')
+		"""
+		for key in keys:
+			print key 
+			print "--->  " 
+			print keys[key]
+		"""
 		h5.close()
 
-"""		i = 1
-		s1 = ""
-		s2 = ""
-		for d in keys:
-			s1 += "{i}|"
-			s2 += keys[d]
-		
-		print s1
-		print s2		
-"""
-
-
-"""
 def arrToStr(inputArr):
 	retStr = ''
-	for i in inputArr:
-		retStr += inputArr[i]
-		if (i != 0):
-			retStr += ','
-	return retStr	
-"""			
-				
+	for him in inputArr:		
+		if (him != inputArr[len(inputArr) - 1]):
+			retStr += str(him)+","
+			continue
+		else:
+			retStr += str(him)
+	return retStr
 
 if __name__ == "__main__":
 	get_all_data("../data/MillionSongSubset/data/A/A/A", '.h5')
