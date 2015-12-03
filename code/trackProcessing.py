@@ -1,9 +1,10 @@
 import os
 import glob
+import sys
 import hdf5_getters as get
 import numpy as np
 
-def get_all_data(dir,ext):
+def get_all_data(dir,ext,outDir):
     for root, dirs, files in os.walk(dir):
 	files = glob.glob(os.path.join(root,'*'+ext))
         for f in files:
@@ -68,9 +69,7 @@ def get_all_data(dir,ext):
                 keys['year'] = get.get_year(h5)
 	
             	
-		
-
-		with open('sData2', 'a') as f:
+		with open(outDir,'a') as f:
 			for key in keys.keys():
 				f.write('{0}\t'.format(keys[key]))
 			f.write('\n')
@@ -93,6 +92,9 @@ def arrToStr(inputArr):
 	return retStr
 
 if __name__ == "__main__":
-	get_all_data("../data/MillionSongSubset/data/A/A/A", '.h5')
+	inputDirPath = sys.argv[1]
+	outputDirPath = sys.argv[2]
+	print (inputDirPath + "   " + outputDirPath)
+	get_all_data(inputDirPath, '.h5', outputDirPath)
 
 #print get.get_song_id(h5)
