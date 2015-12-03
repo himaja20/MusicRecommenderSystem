@@ -1,8 +1,8 @@
 #!/bin/bash
-#PBS -l walltime=30:00
-#PBS -l nodes=1:ppn=10
+#PBS -l walltime=300:00
+#PBS -l nodes=1:ppn=1
 #PBS -l mem=4gb
-#PBS -t 1-2
+#PBS -t 1-14
 #PBS -M mk5376@nyu.edu
 #PBS -N process_data
 
