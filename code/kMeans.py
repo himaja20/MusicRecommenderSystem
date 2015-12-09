@@ -28,25 +28,27 @@ def main():
 	
 	plotClusters(plotSamples,clusters)
 	plotAllSongs(plotPoints)
-	plotPitchVsTimbre(songDataFrameScaled)
+	#plotPitchVsTimbre(songDataFrameScaled)
 
 def plotClusters(plotSamples,clusters):
 	x = plotSamples[:,0]
 	y = plotSamples[:,1]
+	plt.xlim(-8,8)
+	plt.ylim(-8,8)
 	fig = plt.figure(1,figsize=(10,8))
-	plt.scatter(x,y,c=clusters,alpha=0.5)
-	plt.savefig("./plots/clusters")
+	plt.scatter(x,y,c=clusters)
+	plt.savefig("./plots/clusters1")
 
 
 def plotAllSongs(plotPoints):
 	x = plotPoints[:,0]
 	y = plotPoints[:,1]
 
-	fig = plt.figure(1, figsize=(10, 8))
+	fig = plt.figure(1, figsize=(10,8))
 	plt.xlim(-8,8)
 	plt.ylim(-8,8)
 	plt.scatter(x,y,c="blue",alpha = 0.5)
-	plt.savefig("./plots/allsongs")
+	plt.savefig("./plots/allsongs1")
 
 	
 if __name__ == "__main__":
