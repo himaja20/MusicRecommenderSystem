@@ -18,24 +18,24 @@ def get_all_data(dir,ext,outDir):
 		files = glob.glob(os.path.join(root,'*'+ext))
         	for f in files:
 			h5 = get.open_h5_file_read(f)
-			songId = get.get_song_id(h5)
+			#songId = get.get_song_id(h5)
 			pitchAr = (np.array(get.get_segments_pitches(h5))).mean(axis=0)
-			timbreAr = (np.array(get.get_segments_pitches(h5))).mean(axis=0)
+			timbreAr = (np.array(get.get_segments_timbre(h5))).mean(axis=0)
 			loudness = get.get_loudness(h5)
 			concatenatedArr = np.append([pitchAr,timbreAr],loudness)
 			
 			featureSet[i] = concatenatedArr
-			songsDict[songId] = featureSet[i]
+			#songsDict[songId] = featureSet[i]
 			print i
 			i += 1
 			h5.close()
 
-	with open(outDir, "a") as f:
-		for key in songsDict.keys():
-			f.write("{0}|{1}".format(key,songsDict[key]))
-			f.write("\n")
+	#with open(outDir, "a") as f:
+		#for key in songsDict.keys():
+			#f.write("{0}|{1}".format(key,songsDict[key]))
+			#f.write("\n")
 
-	#np.savetxt(outputDirPath,featureSet,delimiter = ',')
+	np.savetxt(outputDirPath,featureSet,delimiter = ',')
 
 if __name__ == "__main__":
 	inputDirPath = sys.argv[1]
