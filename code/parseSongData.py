@@ -7,22 +7,18 @@ APP_NAME = "Music Recommender Systems"
 def main(sc):
 
         sqlContext = SQLContext(sc)
-        tasteProfileRdd = sc.textFile("insertsDir/*")
+        songRdd = sc.textFile("processedSongData/")
 
         # Load a text file and convert each line to a Row.
-        tasteProfile = tasteProfileRdd.filter(lambda l:len(l) > 0)
-        parsedSplits = tasteProfile.map(lambda l: l.split('|'))
-        userTaste = parsedSplits.map(lambda p: Row(songId=p[0], songName=p[1], artistName=p[2], playCount=p[3], lastModified=p[4], dateAdded=p[5], artistId=p[6], foreignId=p[7], catalogId=p[8]))
-	
+        individualSong = songRdd.map(lambda l:l.split('\t'))
+        songData = individualSong.map(lambda p: Row(trackId=p[0], loudness=(float(p[1]) if p[1] != u'' else 0), songId=p[36], title=p[43], pitches=p[32], timbre=p[33]))
 
-	
         # Infer the schema, and register the DataFrame as a table.
-        schemaUserTaste = sqlContext.inferSchema(userTaste)
-        schemaUserTaste.registerTempTable("userTaste")
+        schemaSongData = sqlContext.inferSchema(songData)
+        schemaSongData.registerTempTable("songData")
 
-	
-	
-        test1 = sqlContext.sql("SELECT * FROM userTaste WHERE songId = 'None'")
+        #test1 = sqlContext.sql("SELECT * FROM userTaste WHERE playCount >= 5 AND playCount <= 10")
+        test1 = sqlContext.sql("SELECT * FROM songData WHERE songId = ''")
 
         songIds = test1.map(lambda p: "songIds: " + p.songId)
         for i in songIds.collect():
@@ -34,4 +30,5 @@ if __name__ == "__main__":
 
         # Execute Main functionality
         main(sc)
+
 

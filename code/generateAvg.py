@@ -3,7 +3,7 @@ import sys
 import pprint
 
 def process_tracks():
-	f = open('../data/processedSongData/out')
+	f = open('../data/processedSongData/B')
 	linesInFile = f.readlines()
 	for i in range(len(linesInFile)):
 		load_track(linesInFile[i])
@@ -53,13 +53,13 @@ def load_track(line):
 			avgStrPitch += str(avgPitch[av])
 			avgStrTimbre += str(avgTimbre[av])
 		i = i + 1
-	with open("pitchAvg",'a') as f1:
+	with open("../data/processedSongData/pitchAvg",'a') as f1:
 		f1.write('{0},{1}'.format(track_id,avgStrPitch))
        		f1.write('\n')
-	with open("timbreAvg",'a') as f2:
+	with open("../data/processedSongData/timbreAvg",'a') as f2:
 		f2.write('{0},{1}'.format(track_id,avgStrTimbre))
 		f2.write('\n')
-	with open("loudnessAvg",'a') as f3:
+	with open("../data/processedSongData/loudnessAvg",'a') as f3:
 		f3.write('{0},{1}'.format(track_id,avgLoudness))
 		f3.write('\n')
 
