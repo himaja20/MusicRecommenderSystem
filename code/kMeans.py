@@ -4,6 +4,7 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics.pairwise import pairwise_distances
+from scipy import stats
 import matplotlib
 matplotlib.use("AGG")
 import matplotlib.pyplot as plt
@@ -31,21 +32,19 @@ def main():
 
 	distances = pairwise_distances(songDataFrameScaled, centers, metric='euclidean')
 	clusters = numpy.argmin(distances,axis=1)
-	#getting one component for each song
-	#print {i: numpy.where(rVal.labels_ == i)[0] for i in range(rVal.n_clusters)} 
+	print len(clusters)
 	
 	applyUserOnSongDistance = pairwise_distances(userSongFrameScaled,centers,metric='euclidean')
-	print('applyUserOnSongDistance -------------------- ')
-	print applyUserOnSongDistance
 	userSongBelongsToClusters = numpy.argmin(applyUserOnSongDistance,axis=1)
-	print('userSongBelongsToClusters --------------------  ')
-	print userSongBelongsToClusters
+	userFavCluster = int(stats.mode(userSongBelongsToClusters)[0][0])
 
-	userFavouriteCluster = clusterArray[userSongBelongsToClusters]
-	print ('userFavouriteCluster --------------------- ' ) 
-	print userFavouriteCluster
-	distWithinCluster = pairwise_distances(userSongFrameScaled,userFavouriteCluster,metric='euclidean')
-	medianSong = numpy.median(distWithinCluster,axis=1)
+	userFavouriteCluster = clusterArray[userFavCluster]
+	songsInFavCluster = numpy.empty([len(userFavouriteCluster),25])
+	for i in range(len(userFavouriteCluster)):
+		songsInFavCluster[i] = songDataFrameScaled[userFavouriteCluster[i]]
+		
+	distWithinCluster = pairwise_distances(userSongFrameScaled,songsInFavCluster,metric='euclidean')
+	medianSong = numpy.argwhere(distWithinCluster ==  numpy.median(distWithinCluster,axis=1))
 	print ('median -----------------------------------')
 	print medianSong
 		
@@ -75,6 +74,25 @@ def plotAllSongs(plotPoints):
 	plt.scatter(x,y,c="blue",alpha = 0.5)
 	plt.savefig("./plots/allsongs")
 
+def find_nearest(array,value):
+    idx = (np.abs(array-value)).argmin()
+    return array[idx]
+
+array = np.random.random(10)
+print(array)
+# [ 0.21069679  0.61290182  0.63425412  0.84635244  0.91599191  0.00213826
+#   0.17104965  0.56874386  0.57319379  0.28719469]
+
+value = 0.5
+
+def arg_median(a,axis):
+        if len(a) % 2 == 1:
+                return numpy.where( a == numpy.median(a,axis))
+        else:
+                l,r = len(a)/2 -1, len(a)/2
+                left = numpy.partition(a, l)[l]
+                right = numpy.partition(a, r)[r]
+                return numpy.where(a == left)[0][0]
 	
 if __name__ == "__main__":
 	main()
