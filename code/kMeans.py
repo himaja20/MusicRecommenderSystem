@@ -44,10 +44,14 @@ def main():
 		songsInFavCluster[i] = songDataFrameScaled[userFavouriteCluster[i]]
 		
 	distWithinCluster = pairwise_distances(userSongFrameScaled,songsInFavCluster,metric='euclidean')
-	medianSong = numpy.argwhere(distWithinCluster ==  numpy.median(distWithinCluster,axis=1))
+	medianSong =  numpy.median(distWithinCluster,axis=1)
 	print ('median -----------------------------------')
 	print medianSong
-		
+	recoSongs = [0 for a in range(len(medianSong))]
+	for k in range(len(medianSong)):
+		recoSongs[k] = find_nearest(distWithinCluster[k],medianSong[k])
+
+	print recoSongs	
 	#plotSamples = PCA(n_components=2).fit_transform(songDataFrameScaled)
 	#plotting all songs with 2 components
 	#plotPoints = PCA(n_components=2).fit_transform(songDataFrameScaled)
@@ -75,15 +79,8 @@ def plotAllSongs(plotPoints):
 	plt.savefig("./plots/allsongs")
 
 def find_nearest(array,value):
-    idx = (np.abs(array-value)).argmin()
-    return array[idx]
-
-array = np.random.random(10)
-print(array)
-# [ 0.21069679  0.61290182  0.63425412  0.84635244  0.91599191  0.00213826
-#   0.17104965  0.56874386  0.57319379  0.28719469]
-
-value = 0.5
+    idx = (numpy.abs(array-value)).argmin()
+    return idx
 
 def arg_median(a,axis):
         if len(a) % 2 == 1:
