@@ -82,14 +82,6 @@ def find_nearest(array,value):
     idx = (numpy.abs(array-value)).argmin()
     return idx
 
-def arg_median(a,axis):
-        if len(a) % 2 == 1:
-                return numpy.where( a == numpy.median(a,axis))
-        else:
-                l,r = len(a)/2 -1, len(a)/2
-                left = numpy.partition(a, l)[l]
-                right = numpy.partition(a, r)[r]
-                return numpy.where(a == left)[0][0]
 	
 if __name__ == "__main__":
 	main()
