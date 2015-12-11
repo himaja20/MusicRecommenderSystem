@@ -3,7 +3,7 @@ from pyen import PyenException
 en = pyen.Pyen("KO5QUBGMUVJZA0PFA")
 k = 0;
 
-for fileNum in range(13,14):
+for fileNum in range(40,41):
 	with open("../data/chunks/file"+str(fileNum)) as catalogIds:
 		print "../data/chunks/file"+str(fileNum)
         	for line in catalogIds:
